@@ -50,7 +50,8 @@ if __name__ == '__main__':
     #copmute the time
     start_time = time.time()
     
-    run_version='run1' # In this case, we use only helpfulness vote
+    #run_version='run1' # In this case, we use only helpfulness vote
+    run_version='run2' # In this case, we use only review score
     user_data_path="./datasets/test_users.csv"
     review_data_path="./datasets/test_reviews.csv"
     save_path=f"./results/{run_version}.csv" # save path 
