@@ -77,6 +77,9 @@ if __name__ == '__main__':
     model_name='run5' ##### In this case, we combined the features from both user and review data for review profile, and user profile is 'guest_type' and 'guest_country'
     user_data_path="./datasets/test_users.csv"
     review_data_path="./datasets/test_reviews.csv"
+    
+    # user_data_path="./datasets/val_users.csv"
+    # review_data_path="./datasets/val_reviews.csv"
     save_path=f"./results/{model_name}.csv"
     review_rank(model,user_data_path,review_data_path, save_path)
     end_time = time.time()
