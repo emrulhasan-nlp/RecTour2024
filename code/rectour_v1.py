@@ -22,7 +22,7 @@ def SortedReview(data):
     return [k for k, _ in sorted_items[:10]]
 
 ##########Review ranker #########
-def review_rank(model,user_data_path,review_data_path, save_path):
+def review_rank(model,user_data_path,review_data_path,review, user_feature, save_path):
     """The method accepts csv file containing user_id, accommodation_id, review_id and features. The goal is the rank the reviews for each user and accommodation.
 
     Args:
@@ -53,6 +53,8 @@ def review_rank(model,user_data_path,review_data_path, save_path):
         result_dict['user_id'].append(row['user_id'])
         
         user_prof = f"{row['guest_type']}-{row['guest_country']}-{row['accommodation_type']}-{row['accommodation_country']}--{row['location_is_ski']}-{row['location_is_beach']}-{row['location_is_city_center']}"
+        #user_prof = f"{row['guest_type']}-{row['guest_country']}"
+        
         user_emb = model.encode(user_prof, convert_to_tensor=True, device=device)
         
         acco = row['accommodation_id']
@@ -74,7 +76,8 @@ if __name__ == '__main__':
     start_time = time.time()
     
     #Model name
-    model_name='run2' # In this case, we consider all the features avalable on test_users and test_reviews.csv files
+    model_name='run3' # In this case, we consider all the features avalable on test_users and test_reviews.csv files
+    #model_name='run4' # In this case, we considered 'guest_type' and 'guest_country' as user feature and rest as the item features
     user_data_path="./datasets/test_users.csv"
     review_data_path="./datasets/test_reviews.csv"
     save_path=f"./datasets/{model_name}.csv"
