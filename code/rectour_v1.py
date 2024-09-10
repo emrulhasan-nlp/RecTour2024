@@ -80,7 +80,7 @@ if __name__ == '__main__':
     #model_name='run4' # In this case, we considered 'guest_type' and 'guest_country' as user feature and rest as the item features
     user_data_path="./datasets/test_users.csv"
     review_data_path="./datasets/test_reviews.csv"
-    save_path=f"./datasets/{model_name}.csv"
+    save_path=f"./results/{model_name}.csv"
     review_rank(model,user_data_path,review_data_path, save_path)
     end_time = time.time()
 
