@@ -33,8 +33,8 @@ def review_rank(model,user_data_path,review_data_path, save_path):
     rev_df = pd.read_csv(review_data_path)
     user_df = pd.read_csv(user_data_path)
     acco_id = defaultdict(list)
-    for _, row in rev_df.iterrows():
-        acco_id[row['accommodation_id']].append((row['review_id'], f"{row['review_title']}-{row['review_positive']}-{row['review_negative']}-{row['review_score']}-{row['review_helpful_votes']}"))
+    for (_, row1), (_, row2) in zip(rev_df.iterrows(), user_df.iterrows()):
+        acco_id[row1['accommodation_id']].append((row1['review_id'], f"{row1['review_title']}-{row1['review_positive']}-{row1['review_negative']}-{row2['accommodation_type']}-{row2['accommodation_country']}-{row2['location_is_ski']}-{row2['location_is_beach']}-{row2['location_is_city_center']}"))
 
     # Pre-encode all review titles
     all_reviews = [rev for reviews in acco_id.values() for _, rev in reviews]
@@ -52,9 +52,7 @@ def review_rank(model,user_data_path,review_data_path, save_path):
         result_dict['accommodation_id'].append(row['accommodation_id'])
         result_dict['user_id'].append(row['user_id'])
         
-        user_prof = f"{row['guest_type']}-{row['guest_country']}-{row['accommodation_type']}-{row['accommodation_country']}--{row['location_is_ski']}-{row['location_is_beach']}-{row['location_is_city_center']}"
-        #user_prof = f"{row['guest_type']}-{row['guest_country']}"
-        
+        user_prof = f"{row['guest_type']}-{row['guest_country']}"
         user_emb = model.encode(user_prof, convert_to_tensor=True, device=device)
         
         acco = row['accommodation_id']
@@ -76,8 +74,7 @@ if __name__ == '__main__':
     start_time = time.time()
     
     #Model name
-    model_name='run3' # In this case, we consider all the features avalable on test_users and test_reviews.csv files
-    #model_name='run4' # In this case, we considered 'guest_type' and 'guest_country' as user feature and rest as the item features
+    model_name='run4'
     user_data_path="./datasets/test_users.csv"
     review_data_path="./datasets/test_reviews.csv"
     save_path=f"./datasets/{model_name}.csv"
